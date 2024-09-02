@@ -1,7 +1,7 @@
-File sheets :
+File sheets Database undian MNC :
 https://docs.google.com/spreadsheets/d/1-q5NCHA5ydTl5g_Z781m66FUADoeS81vBF1hlJ_vc08/edit?gid=0#gid=0
 
-Google Chat Space :
+Google Chat Space MNC :
 Database Undian mGanik
 
 Untuk AppScript sudah ada dalam file sheets tersebut, tinggal pakai aja. Tapi kalau ada perubahan maka link AppScriptnya perlu di update di dalam semua codingan form
