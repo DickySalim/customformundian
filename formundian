@@ -388,8 +388,11 @@
                     // Disable submit button to prevent multiple submissions
                     $('.submit-btn').prop('disabled', true).text('Mengirim...');
 
+                    // Add a 5-second delay before redirecting
+                        setTimeout(function() {
                     // Redirect to the specified URL after form submission
-                    window.location.href = "https://www.mganik.com/hadiah/konsultasi-nutritionists";
+                        window.location.href = "https://www.mganik.com/hadiah/konsultasi-nutritionists";
+                        }, 5000); // 5000 milliseconds = 5 seconds
 
                     }
             });
