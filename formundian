@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mGanik Multigrain Feedback Form</title>
+    
+    <!-- Import IBM Plex Sans Font -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Custom CSS Styles -->
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'IBM Plex Sans', Arial, sans-serif;
+        }
+
+        body {
+            background-color: transparent; /* Removes background color */
+            padding: 20px;
+        }
+
+        form {
+            background-color: transparent; /* Removes form background */
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: none; /* Removes box shadow */
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto; /* Center the form horizontally */
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            font-size: 24px;
+            color: #333333;
+            font-weight: 600;
+        }
+
+        .form-field {
+            margin-bottom: 20px;
+            position: relative;
+            text-align: left; /* Aligns the labels and inputs */
+        }
+
+        .form-field label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #555555;
+            font-weight: 600;
+        }
+
+        .form-field input,
+        .form-field textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #333333;
+            transition: border-color 0.3s;
+        }
+
+        .form-field input:focus,
+        .form-field textarea:focus {
+            border-color: #6666ff;
+            outline: none;
+        }
+
+        .form-field input.error,
+        .form-field textarea.error {
+            border-color: #e74c3c;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .phone-input-wrapper {
+            display: flex;
+        }
+
+        .phone-prefix {
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            background-color: #f4f4f4;
+            border: 1px solid #cccccc;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 14px;
+            color: #333333;
+        }
+
+        .phone-input-wrapper input {
+            flex: 1;
+            border-radius: 0 4px 4px 0;
+            border-left: none;
+        }
+
+        .dropdown-list {
+            position: relative;
+        }
+
+        .dropdown-list ul {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .dropdown-list ul li {
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333333;
+        }
+
+        .dropdown-list ul li:hover {
+            background-color: #f0f0f0;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #28a745;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            form {
+                padding: 30px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .form-field {
+                margin-bottom: 15px;
+            }
+
+            .submit-btn {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <form id="mgForm" novalidate>
+        <h2>Silahkan Isi Data Di Bawah Ini</h2>
+
+        <!-- Nama Field -->
+        <div class="form-field">
+            <label for="nama">Nama</label>
+            <input type="text" id="nama" name="nama" placeholder="Masukkan Nama Anda" required>
+            <span class="error-message" id="error-nama">Nama harus diisi.</span>
+        </div>
+
+        <!-- Email Field -->
+        <div class="form-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Masukkan Email Anda" required>
+            <span class="error-message" id="error-email">Email tidak valid.</span>
+        </div>
+
+        <!-- Nomor HP Field -->
+        <div class="form-field">
+            <label for="nomor_hp">Nomor HP</label>
+            <div class="phone-input-wrapper">
+                <span class="phone-prefix">+62</span>
+                <input type="tel" id="nomor_hp" name="nomor_hp" placeholder="81234567890" required>
+            </div>
+            <span class="error-message" id="error-nomor_hp">Nomor HP tidak valid.</span>
+        </div>
+
+        <!-- Provinsi Field -->
+        <div class="form-field dropdown-list">
+            <label for="provinsi-input">Provinsi</label>
+            <input type="text" id="provinsi-input" name="provinsi" placeholder="Pilih Provinsi" autocomplete="off" required>
+            <ul id="provinsi-list"></ul>
+            <span class="error-message" id="error-provinsi">Pilih provinsi dari daftar.</span>
+        </div>
+
+        <!-- Kota Field -->
+        <div class="form-field">
+            <label for="kota-input">Kota</label>
+            <input type="text" id="kota-input" name="kota" placeholder="Masukkan Kota Anda" required>
+            <span class="error-message" id="error-kota">Kota harus diisi.</span>
+        </div>
+
+        <!-- Agen Field -->
+        <div class="form-field">
+            <label for="agen">Nama Agen Tempat Membeli mGanik</label>
+            <input type="text" id="agen" name="agen" placeholder="Masukkan Nama Agen" required>
+            <span class="error-message" id="error-agen">Nama agen harus diisi.</span>
+        </div>
+
+        <!-- Alasan Field -->
+        <div class="form-field">
+            <label for="alasan">Mengapa Memilih mGanik Multigrain</label>
+            <textarea id="alasan" name="alasan" placeholder="Jelaskan alasan Anda" rows="4" required></textarea>
+            <span class="error-message" id="error-alasan">Alasan harus diisi.</span>
+        </div>
+
+        <!-- Lama Konsumsi Field -->
+        <div class="form-field">
+            <label for="lama_konsumsi">Sudah Berapa Lama Mengkonsumsi mGanik Multigrain</label>
+            <input type="text" id="lama_konsumsi" name="lama_konsumsi" placeholder="Contoh: 3 bulan" required>
+            <span class="error-message" id="error-lama_konsumsi">Lama konsumsi harus diisi.</span>
+        </div>
+
+        <!-- Kritik dan Saran Field -->
+        <div class="form-field">
+            <label for="kritik_saran">Kritik dan Saran untuk mGanik</label>
+            <textarea id="kritik_saran" name="kritik_saran" placeholder="Berikan kritik dan saran Anda" rows="4"></textarea>
+        </div>
+
+        <!-- Testimoni Field -->
+        <div class="form-field">
+            <label for="testimoni">Testimoni Setelah Mengkonsumsi mGanik Multigrain</label>
+            <textarea id="testimoni" name="testimoni" placeholder="Bagikan testimoni Anda" rows="4" required></textarea>
+            <span class="error-message" id="error-testimoni">Testimoni harus diisi.</span>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn">Kirim</button>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            // List of 34 provinces in Indonesia
+            const provinces = [
+                "Aceh", "Bali", "Banten", "Bengkulu", "DI Yogyakarta", "DKI Jakarta", "Gorontalo", "Jambi",
+                "Jawa Barat", "Jawa Tengah", "Jawa Timur", "Kalimantan Barat", "Kalimantan Selatan",
+                "Kalimantan Tengah", "Kalimantan Timur", "Kalimantan Utara", "Kepulauan Bangka Belitung",
+                "Kepulauan Riau", "Lampung", "Maluku", "Maluku Utara", "Nusa Tenggara Barat", "Nusa Tenggara Timur",
+                "Papua", "Papua Barat", "Papua Selatan", "Papua Pegunungan", "Papua Tengah", "Papua Barat Daya", "Riau",
+                "Sulawesi Barat", "Sulawesi Selatan", "Sulawesi Tengah", "Sulawesi Tenggara", "Sulawesi Utara",
+                "Sumatera Barat", "Sumatera Selatan", "Sumatera Utara"
+            ];
+
+            // Province Autocomplete Functionality
+            $('#provinsi-input').on('input', function() {
+                const query = $(this).val().toLowerCase();
+                const matchedProvinces = provinces.filter(province => province.toLowerCase().includes(query));
+
+                if (matchedProvinces.length > 0 && query !== '') {
+                    $('#provinsi-list').empty().show();
+                    matchedProvinces.forEach(province => {
+                        $('#provinsi-list').append(`<li>${province}</li>`);
+                    });
+                } else {
+                    $('#provinsi-list').hide();
+                }
+            });
+
+            // Select Province from Dropdown
+            $('#provinsi-list').on('click', 'li', function() {
+                $('#provinsi-input').val($(this).text());
+                $('#provinsi-list').hide();
+                validateField($('#provinsi-input'));
+            });
+
+            // Hide Dropdown when clicking outside
+            $(document).click(function(e) {
+                if (!$(e.target).closest('.dropdown-list').length) {
+                    $('#provinsi-list').hide();
+                }
+            });
+
+            // Real-time Validation
+            $('input, textarea').on('blur', function() {
+                validateField($(this));
+            });
+
+            // Validation Function
+            function validateField(field) {
+                const fieldId = field.attr('id');
+                const value = field.val().trim();
+                let isValid = true;
+
+                switch (fieldId) {
+                    case 'nama':
+                    case 'kota-input':
+                    case 'agen':
+                    case 'alasan':
+                    case 'lama_konsumsi':
+                    case 'testimoni':
+                        if (value === '') {
+                            isValid = false;
+                        }
+                        break;
+                    case 'email':
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (!emailRegex.test(value)) {
+                            isValid = false;
+                        }
+                        break;
+                    case 'nomor_hp':
+                        const phoneRegex = /^[0-9]{9,13}$/;
+                        if (!phoneRegex.test(value)) {
+                            isValid = false;
+                        }
+                        break;
+                    case 'provinsi-input':
+                        if (!provinces.includes(value)) {
+                            isValid = false;
+                        }
+                        break;
+                }
+
+                if (!isValid) {
+                    field.addClass('error');
+                    $(`#error-${fieldId}`).show();
+                } else {
+                    field.removeClass('error');
+                    $(`#error-${fieldId}`).hide();
+                }
+
+                return isValid;
+            }
+
+            // Form Submission
+            $('#mgForm').on('submit', function(e) {
+                e.preventDefault();
+                let isFormValid = true;
+
+                // Validate all required fields
+                $('#mgForm').find('input[required], textarea[required]').each(function() {
+                    if (!validateField($(this))) {
+                        isFormValid = false;
+                    }
+                });
+
+                if (isFormValid) {
+                    // Collect form data
+                    const formData = {
+                        'nama': $('#nama').val().trim(),
+                        'email': $('#email').val().trim(),
+                        'nomor_hp': '+62' + $('#nomor_hp').val().trim(),
+                        'provinsi': $('#provinsi-input').val().trim(),
+                        'kota': $('#kota-input').val().trim(),
+                        'agen': $('#agen').val().trim(),
+                        'alasan': $('#alasan').val().trim(),
+                        'lama_konsumsi': $('#lama_konsumsi').val().trim(),
+                        'kritik_saran': $('#kritik_saran').val().trim(),
+                        'testimoni': $('#testimoni').val().trim()
+                    };
+
+                    // Push data to dataLayer
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({
+                        'event': 'formSubmit',
+                        'formData': formData
+                    });
+
+                    // Disable submit button to prevent multiple submissions
+                    $('.submit-btn').prop('disabled', true).text('Mengirim...');
+
+                                   }
+            });
+        });
+    </script>
+</body>
+</html>
