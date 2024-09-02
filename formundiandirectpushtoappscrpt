@@ -180,6 +180,10 @@
     <form id="mgForm" novalidate>
         <h2>Silahkan Isi Data Di Bawah Ini</h2>
 
+        <!-- Hidden Fields -->
+        <input type="hidden" id="sku" name="sku" value="MGP">
+        <input type="hidden" id="timestamp" name="timestamp">
+
         <!-- Nama Field -->
         <div class="form-field">
             <label for="nama">Nama</label>
@@ -207,7 +211,7 @@
         <!-- Provinsi Field -->
         <div class="form-field dropdown-list">
             <label for="provinsi-input">Provinsi</label>
-            <input type="text" id="provinsi-input" name="provinsi" placeholder="Pilih Provinsi" autocomplete="off" required>
+            <input type="text" id="provinsi-input" name="provinsi" placeholder="Ketik Provinsi" autocomplete="off" required>
             <ul id="provinsi-list"></ul>
             <span class="error-message" id="error-provinsi">Pilih provinsi dari daftar.</span>
         </div>
@@ -364,8 +368,18 @@
                 });
 
                 if (isFormValid) {
+                    // Disable the submit button and show "Mengirim..."
+                    $('.submit-btn').prop('disabled', true).text('Mengirim...');
+
+                    // Add timestamp
+                    const now = new Date();
+                    const timestamp = now.toISOString().replace('T', ' ').substring(0, 19) + ' +07:00';
+                    $('#timestamp').val(timestamp);
+
                     // Collect form data
                     const formData = {
+                        'timestamp': $('#timestamp').val().trim(),
+                        'sku': $('#sku').val().trim(),
                         'nama': $('#nama').val().trim(),
                         'email': $('#email').val().trim(),
                         'nomor_hp': '+62' + $('#nomor_hp').val().trim(),
@@ -375,24 +389,42 @@
                         'alasan': $('#alasan').val().trim(),
                         'lama_konsumsi': $('#lama_konsumsi').val().trim(),
                         'kritik_saran': $('#kritik_saran').val().trim(),
-                        'testimoni': $('#testimoni').val().trim()
+                        'testimoni': $('#testimoni').val().trim(),
                     };
 
-                   // Build the URL with query parameters
-                      const appScriptUrl = "https://script.google.com/macros/s/AKfycby_kAlBknfHPPBF6EGfLNc4g0ChXNHB2dNaC5F4y6RbfNOxA-NammliLe9Yoi032A2U/exec";
-                      const queryParams = $.param(formData); // Convert form data to query string
-                      const redirectUrl = `${appScriptUrl}?${queryParams}`;
+                    // Debugging: log the form data
+                    console.log("Collected Form Data: ", formData);
 
-                    // Disable submit button to prevent multiple submissions
-                    $('.submit-btn').prop('disabled', true).text('Mengirim...');
+                    // Push the form data to the dataLayer
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({
+                        'event': 'formSubmission',
+                        'formData': formData
+                    });
 
-                    // Add a 5-second delay before redirecting
-                        setTimeout(function() {
-                    // Redirect to the specified URL after form submission
-                        window.location.href = "https://www.mganik.com/hadiah/konsultasi-nutritionists";
-                        }, 5000); // 5000 milliseconds = 5 seconds
+                    console.log("Data pushed to dataLayer:", formData);
 
-                    }
+                    // Send data via AJAX to Apps Script
+                    const appScriptUrl = "https://script.google.com/macros/s/AKfycbx2UvpNcA3itEXb1UuyfX_zypQHAQPV2YIDxWSRBK3dVzQ1rPRYYE47Nszjym4l4bPl/exec";
+                    
+                    $.ajax({
+                        url: appScriptUrl,
+                        method: "GET", // or "POST" depending on how your Apps Script is set up
+                        data: formData,
+                        success: function(response) {
+                            console.log("Data sent successfully:", response);
+                            // Redirect after success
+                            setTimeout(function() {
+                                window.location.href = "https://www.mganik.com/hadiah/konsultasi-nutritionists";
+                            }, 500); // 1-second delay before redirecting
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error in sending data:", error);
+                            alert("There was an error in submitting the form. Please try again.");
+                            $('.submit-btn').prop('disabled', false).text('Kirim');
+                        }
+                    });
+                }
             });
         });
     </script>
