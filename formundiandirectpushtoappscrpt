@@ -186,21 +186,18 @@
 
         <!-- Nama Field -->
         <div class="form-field">
-            <label for="nama">Nama</label>
             <input type="text" id="nama" name="nama" placeholder="Masukkan Nama Anda" required>
             <span class="error-message" id="error-nama">Nama harus diisi.</span>
         </div>
 
         <!-- Email Field -->
         <div class="form-field">
-            <label for="email">Email</label>
             <input type="email" id="email" name="email" placeholder="Masukkan Email Anda" required>
             <span class="error-message" id="error-email">Email tidak valid.</span>
         </div>
 
         <!-- Nomor HP Field -->
         <div class="form-field">
-            <label for="nomor_hp">Nomor HP</label>
             <div class="phone-input-wrapper">
                 <span class="phone-prefix">+62</span>
                 <input type="tel" id="nomor_hp" name="nomor_hp" placeholder="81234567890" required>
@@ -210,23 +207,20 @@
 
         <!-- Provinsi Field -->
         <div class="form-field dropdown-list">
-            <label for="provinsi-input">Provinsi</label>
-            <input type="text" id="provinsi-input" name="provinsi" placeholder="Ketik Provinsi" autocomplete="off" required>
+            <input type="text" id="provinsi-input" name="provinsi" placeholder="Masukkan Provinsi Anda" autocomplete="off" required>
             <ul id="provinsi-list"></ul>
             <span class="error-message" id="error-provinsi">Pilih provinsi dari daftar.</span>
         </div>
 
         <!-- Kota Field -->
         <div class="form-field">
-            <label for="kota-input">Kota</label>
             <input type="text" id="kota-input" name="kota" placeholder="Masukkan Kota Anda" required>
             <span class="error-message" id="error-kota">Kota harus diisi.</span>
         </div>
 
         <!-- Agen Field -->
         <div class="form-field">
-            <label for="agen">Nama Agen Tempat Membeli mGanik</label>
-            <input type="text" id="agen" name="agen" placeholder="Masukkan Nama Agen" required>
+            <input type="text" id="agen" name="agen" placeholder="Masukkan Nama Agen Anda" required>
             <span class="error-message" id="error-agen">Nama agen harus diisi.</span>
         </div>
 
