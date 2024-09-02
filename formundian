@@ -388,7 +388,10 @@
                     // Disable submit button to prevent multiple submissions
                     $('.submit-btn').prop('disabled', true).text('Mengirim...');
 
-                                   }
+                    // Redirect to the specified URL after form submission
+                    window.location.href = "https://www.mganik.com/hadiah/konsultasi-nutritionists";
+
+                    }
             });
         });
     </script>
