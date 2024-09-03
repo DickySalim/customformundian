@@ -274,7 +274,7 @@
                     testimoni: $('#testimoni').val().trim(),
                 };
 
-                $.post('https://script.google.com/macros/s/AKfycbwMPjSM3sj2mffy2PebT4lsICAgzShp5wt54ymd2TGbWcellKqhhkTGFICJvufG6xQ/exec', formData)
+                $.post('https://script.google.com/macros/s/AKfycbxY4S3-4ofEuxPW1wF0WUzWMTBWdE2sbNGoAYtYrTT1QvCErxG6aPpa5yCrxr9gmInB/exec', formData)
                     .done(function() {
                         window.location.href = "https://www.mganik.com/hadiah/konsultasi-nutritionists";
                     })
