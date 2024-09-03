@@ -186,7 +186,7 @@
             </div>
 
             <div class="form-field">
-                <input type="text" id="agen" name="agen" placeholder="Masukkan Nama Agen Anda" required>
+                <input type="text" id="agen" name="agen" placeholder="Dimana Anda Membeli Produk mGanik?" required>
             </div>
 
             <div class="form-field">
@@ -195,7 +195,7 @@
             </div>
 
             <div class="form-field">
-                <label for="lama_konsumsi">Sudah Berapa Lama Mengkonsumsi mGanik Multigrain:</label>
+                <label for="lama_konsumsi">Sudah Berapa Lama Mengkonsumsi mGanik 3Peptide:</label>
                 <input type="text" id="lama_konsumsi" name="lama_konsumsi" placeholder="Contoh: 3 bulan" required>
             </div>
 
@@ -205,7 +205,7 @@
             </div>
 
             <div class="form-field">
-                <label for="testimoni">Testimoni Setelah Mengkonsumsi mGanik Multigrain:</label>
+                <label for="testimoni">Testimoni Setelah Mengkonsumsi mGanik 3Peptide:</label>
                 <textarea id="testimoni" name="testimoni" placeholder="Bagikan testimoni Anda" rows="4" required></textarea>
             </div>
 
