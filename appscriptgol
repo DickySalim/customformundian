@@ -1,0 +1,52 @@
+function doPost(e) {
+  // Same logic as doGet, but handle POST data
+  var sheet = SpreadsheetApp.openById("1F5T8A5z4MGozbA1hi6FBVkzvgd3J0J4_AkObJKBKHAg").getSheetByName("Sheet1");
+  var rowData = [];
+  
+  // Collect data from the POST request
+  rowData.push(e.parameter.sku);
+  rowData.push(e.parameter.timestamp);
+  rowData.push(e.parameter.nama);
+  rowData.push(e.parameter.email);
+  rowData.push(e.parameter.nomor_hp);
+  rowData.push(e.parameter.provinsi);
+  rowData.push(e.parameter.kota);
+  rowData.push(e.parameter.agen);
+  rowData.push(e.parameter.alasan);
+  rowData.push(e.parameter.lama_konsumsi);
+  rowData.push(e.parameter.kritik_saran);
+  rowData.push(e.parameter.testimoni);
+  
+  // Append the data to the next row in the sheet
+  sheet.appendRow(rowData);
+  
+  // Prepare data to send to Google Chat
+  var message = {
+    "text": "*New Undian Submission*\n\n" +
+            "*SKU:* " + e.parameter.sku + "\n" +
+            "*Timestamp:* " + e.parameter.timestamp + "\n\n" +
+            "*Nama:* " + e.parameter.nama + "\n" +
+            "*Email:* " + e.parameter.email + "\n" +
+            "*Nomor HP:* " + e.parameter.nomor_hp + "\n" +
+            "*Provinsi:* " + e.parameter.provinsi + "\n" +
+            "*Kota:* " + e.parameter.kota + "\n" +
+            "*Agen:* " + e.parameter.agen + "\n\n" +
+            "*Alasan:* " + "\n" + e.parameter.alasan + "\n\n" +
+            "*Lama Konsumsi:* " + "\n" + e.parameter.lama_konsumsi + "\n\n" +
+            "*Kritik Saran:* " + "\n" + e.parameter.kritik_saran + "\n\n" +
+            "*Testimoni:* " + "\n" + e.parameter.testimoni
+  };
+
+  // Send the message to Google Chat
+  var webhookUrl = "https://chat.googleapis.com/v1/spaces/AAAAWJKcpIc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=rwMau7WLm6FWj31pc-aidU__SdshS9bWJlUinU60MR4";
+  
+  var options = {
+    "method": "POST",
+    "contentType": "application/json",
+    "payload": JSON.stringify(message)
+  };
+  
+  UrlFetchApp.fetch(webhookUrl, options);
+  
+  return ContentService.createTextOutput("Success").setMimeType(ContentService.MimeType.TEXT);
+}
