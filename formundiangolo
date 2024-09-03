@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>mGanik Multigrain Feedback Form</title>
+    
+    <!-- Import IBM Plex Sans Font -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Custom CSS Styles -->
+    <style>
+        .mganik-form * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'IBM Plex Sans', Arial, sans-serif;
+        }
+
+        .mganik-form {
+            padding: 20px;
+        }
+
+        .mganik-form form {
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .mganik-form h2 {
+            margin-bottom: 30px;
+            font-size: 24px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .mganik-form .form-field {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .mganik-form .form-field label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .mganik-form .form-field input,
+        .mganik-form .form-field textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .mganik-form .form-field input:focus,
+        .mganik-form .form-field textarea:focus {
+            border-color: #6666ff;
+            outline: none;
+        }
+
+        .mganik-form .phone-input-wrapper {
+            display: flex;
+        }
+
+        .mganik-form .phone-prefix {
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .mganik-form .phone-input-wrapper input {
+            flex: 1;
+            border-radius: 0 4px 4px 0;
+            border-left: none;
+        }
+
+        .mganik-form .dropdown-list ul {
+            position: absolute;
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .mganik-form .dropdown-list ul li {
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .mganik-form .dropdown-list ul li:hover {
+            background-color: #f0f0f0;
+        }
+
+        .mganik-form .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .mganik-form .submit-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 800px) {
+            .mganik-form form {
+                padding: 5px;
+            }
+
+            .mganik-form h2 {
+                font-size: 20px;
+            }
+
+            .mganik-form .form-field {
+                margin-bottom: 15px;
+            }
+
+            .mganik-form .submit-btn {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mganik-form">
+        <form id="mgForm" novalidate>
+            <h2>Silahkan Isi Data Di Bawah Ini</h2>
+
+            <!-- Hidden Fields -->
+            <input type="hidden" id="sku" name="sku" value="GIN">
+            <input type="hidden" id="timestamp" name="timestamp">
+
+            <!-- Form Fields with Labels -->
+            <div class="form-field">
+                <input type="text" id="nama" name="nama" placeholder="Masukkan Nama Anda" required>
+            </div>
+
+            <div class="form-field">
+                <input type="email" id="email" name="email" placeholder="Masukkan Email Anda" required>
+            </div>
+
+            <div class="form-field">
+                <div class="phone-input-wrapper">
+                    <span class="phone-prefix">+62</span>
+                    <input type="tel" id="nomor_hp" name="nomor_hp" placeholder="81234567890" required>
+                </div>
+            </div>
+
+            <div class="form-field dropdown-list">
+                <input type="text" id="provinsi-input" name="provinsi" placeholder="Masukkan Provinsi Anda" autocomplete="off" required>
+                <ul id="provinsi-list"></ul>
+            </div>
+
+            <div class="form-field">
+                <input type="text" id="kota-input" name="kota" placeholder="Masukkan Kota Anda" required>
+            </div>
+
+            <div class="form-field">
+                <input type="text" id="agen" name="agen" placeholder="Dimana Anda Membeli GOLO Ginseng?" required>
+            </div>
+
+            <div class="form-field">
+                <label for="alasan">Mengapa Memilih GOLO Ginseng:</label>
+                <textarea id="alasan" name="alasan" placeholder="Jelaskan alasan Anda" rows="4" required></textarea>
+            </div>
+
+            <div class="form-field">
+                <label for="lama_konsumsi">Sudah Berapa Lama Mengkonsumsi GOLO Ginseng:</label>
+                <input type="text" id="lama_konsumsi" name="lama_konsumsi" placeholder="Contoh: 3 bulan" required>
+            </div>
+
+            <div class="form-field">
+                <label for="kritik_saran">Kritik dan Saran untuk Mister GOLO:</label>
+                <textarea id="kritik_saran" name="kritik_saran" placeholder="Berikan kritik dan saran Anda" rows="4"></textarea>
+            </div>
+
+            <div class="form-field">
+                <label for="testimoni">Testimoni Setelah Mengkonsumsi GOLO Ginseng:</label>
+                <textarea id="testimoni" name="testimoni" placeholder="Bagikan testimoni Anda" rows="4" required></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">Kirim</button>
+        </form>
+    </div>
+
+    <script>
+        $(function() {
+            const provinces = [
+                "Aceh", "Bali", "Banten", "Bengkulu", "DI Yogyakarta", "DKI Jakarta", "Gorontalo", "Jambi",
+                "Jawa Barat", "Jawa Tengah", "Jawa Timur", "Kalimantan Barat", "Kalimantan Selatan",
+                "Kalimantan Tengah", "Kalimantan Timur", "Kalimantan Utara", "Kepulauan Bangka Belitung",
+                "Kepulauan Riau", "Lampung", "Maluku", "Maluku Utara", "Nusa Tenggara Barat", "Nusa Tenggara Timur",
+                "Papua", "Papua Barat", "Papua Selatan", "Papua Pegunungan", "Papua Tengah", "Papua Barat Daya", "Riau",
+                "Sulawesi Barat", "Sulawesi Selatan", "Sulawesi Tengah", "Sulawesi Tenggara", "Sulawesi Utara",
+                "Sumatera Barat", "Sumatera Selatan", "Sumatera Utara"
+            ];
+
+            const $provinsiInput = $('#provinsi-input');
+            const $provinsiList = $('#provinsi-list');
+            const $submitBtn = $('.submit-btn');
+
+            $provinsiInput.on('input', function() {
+                const query = this.value.toLowerCase();
+                $provinsiList.empty().toggle(query !== '');
+                provinces
+                    .filter(province => province.toLowerCase().includes(query))
+                    .forEach(province => {
+                        $provinsiList.append(`<li>${province}</li>`);
+                    });
+            });
+
+            $provinsiList.on('click', 'li', function() {
+                $provinsiInput.val($(this).text()).blur();
+                $provinsiList.hide();
+            });
+
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.dropdown-list').length) {
+                    $provinsiList.hide();
+                }
+            });
+
+            $('#mgForm').on('submit', function(e) {
+                e.preventDefault();
+                $submitBtn.prop('disabled', true).text('Mengirim...');
+
+                // Adjust to WIB (UTC+7) and remove timezone offset
+                const now = new Date();
+                const wibTimestamp = new Date(now.getTime() + (7 * 60 * 60 * 1000)).toISOString().replace('T', ' ').substring(0, 19);
+
+                const formData = {
+                    sku: $('#sku').val(),
+                    timestamp: wibTimestamp,
+                    nama: $('#nama').val().trim(),
+                    email: $('#email').val().trim(),
+                    nomor_hp: '+62' + $('#nomor_hp').val().trim(),
+                    provinsi: $provinsiInput.val().trim(),
+                    kota: $('#kota-input').val().trim(),
+                    agen: $('#agen').val().trim(),
+                    alasan: $('#alasan').val().trim(),
+                    lama_konsumsi: $('#lama_konsumsi').val().trim(),
+                    kritik_saran: $('#kritik_saran').val().trim(),
+                    testimoni: $('#testimoni').val().trim(),
+                };
+
+                $.post('https://script.google.com/macros/s/AKfycbwMPjSM3sj2mffy2PebT4lsICAgzShp5wt54ymd2TGbWcellKqhhkTGFICJvufG6xQ/exec', formData)
+                    .done(function() {
+                        window.location.href = "https://www.mganik.com/hadiah/konsultasi-nutritionists";
+                    })
+                    .fail(function() {
+                        alert("There was an error in submitting the form. Please try again.");
+                        $submitBtn.prop('disabled', false).text('Kirim');
+                    });
+            });
+        });
+    </script>
+</body>
+</html>
