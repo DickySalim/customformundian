@@ -186,7 +186,7 @@
             </div>
 
             <div class="form-field">
-                <input type="text" id="agen" name="agen" placeholder="Masukkan Nama Agen Anda" required>
+                <input type="text" id="agen" name="agen" placeholder="Dimana Anda Membeli Produk mGanik?" required>
             </div>
 
             <div class="form-field">
