@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>mGanik Multigrain Feedback Form</title>
     
     <!-- Import IBM Plex Sans Font -->
@@ -13,37 +13,37 @@
     
     <!-- Custom CSS Styles -->
     <style>
-        * {
+        .mganik-form * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'IBM Plex Sans', Arial, sans-serif;
         }
 
-        body {
+        .mganik-form {
             padding: 20px;
         }
 
-        form {
+        .mganik-form form {
             padding: 40px;
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
             text-align: center;
         }
 
-        h2 {
+        .mganik-form h2 {
             margin-bottom: 30px;
             font-size: 24px;
             color: #333;
             font-weight: 600;
         }
 
-        .form-field {
+        .mganik-form .form-field {
             margin-bottom: 20px;
             text-align: left;
         }
 
-        .form-field label {
+        .mganik-form .form-field label {
             display: block;
             margin-bottom: 8px;
             font-size: 14px;
@@ -51,8 +51,8 @@
             font-weight: 600;
         }
 
-        .form-field input,
-        .form-field textarea {
+        .mganik-form .form-field input,
+        .mganik-form .form-field textarea {
             width: 100%;
             padding: 12px 16px;
             border: 1px solid #ccc;
@@ -61,17 +61,17 @@
             transition: border-color 0.3s;
         }
 
-        .form-field input:focus,
-        .form-field textarea:focus {
+        .mganik-form .form-field input:focus,
+        .mganik-form .form-field textarea:focus {
             border-color: #6666ff;
             outline: none;
         }
 
-        .phone-input-wrapper {
+        .mganik-form .phone-input-wrapper {
             display: flex;
         }
 
-        .phone-prefix {
+        .mganik-form .phone-prefix {
             display: flex;
             align-items: center;
             padding: 0 12px;
@@ -83,13 +83,13 @@
             color: #333;
         }
 
-        .phone-input-wrapper input {
+        .mganik-form .phone-input-wrapper input {
             flex: 1;
             border-radius: 0 4px 4px 0;
             border-left: none;
         }
 
-        .dropdown-list ul {
+        .mganik-form .dropdown-list ul {
             position: absolute;
             width: 100%;
             background-color: #fff;
@@ -101,18 +101,18 @@
             display: none;
         }
 
-        .dropdown-list ul li {
+        .mganik-form .dropdown-list ul li {
             padding: 10px 16px;
             cursor: pointer;
             font-size: 14px;
             color: #333;
         }
 
-        .dropdown-list ul li:hover {
+        .mganik-form .dropdown-list ul li:hover {
             background-color: #f0f0f0;
         }
 
-        .submit-btn {
+        .mganik-form .submit-btn {
             width: 100%;
             padding: 14px;
             background-color: #28a745;
@@ -125,25 +125,25 @@
             transition: background-color 0.3s;
         }
 
-        .submit-btn:hover {
+        .mganik-form .submit-btn:hover {
             background-color: #218838;
         }
 
         /* Responsive Design */
-        @media (max-width: 600px) {
-            form {
-                padding: 30px;
+        @media (max-width: 800px) {
+            .mganik-form form {
+                padding: 5px;
             }
 
-            h2 {
+            .mganik-form h2 {
                 font-size: 20px;
             }
 
-            .form-field {
+            .mganik-form .form-field {
                 margin-bottom: 15px;
             }
 
-            .submit-btn {
+            .mganik-form .submit-btn {
                 padding: 12px;
                 font-size: 14px;
             }
@@ -152,65 +152,67 @@
 </head>
 
 <body>
-    <form id="mgForm" novalidate>
-        <h2>Silahkan Isi Data Di Bawah Ini</h2>
+    <div class="mganik-form">
+        <form id="mgForm" novalidate>
+            <h2>Silahkan Isi Data Di Bawah Ini</h2>
 
-        <!-- Hidden Fields -->
-        <input type="hidden" id="sku" name="sku" value="M3P">
-        <input type="hidden" id="timestamp" name="timestamp">
+            <!-- Hidden Fields -->
+            <input type="hidden" id="sku" name="sku" value="M3P">
+            <input type="hidden" id="timestamp" name="timestamp">
 
-        <!-- Form Fields with Labels -->
-        <div class="form-field">
-            <input type="text" id="nama" name="nama" placeholder="Masukkan Nama Anda" required>
-        </div>
-
-        <div class="form-field">
-            <input type="email" id="email" name="email" placeholder="Masukkan Email Anda" required>
-        </div>
-
-        <div class="form-field">
-            <div class="phone-input-wrapper">
-                <span class="phone-prefix">+62</span>
-                <input type="tel" id="nomor_hp" name="nomor_hp" placeholder="81234567890" required>
+            <!-- Form Fields with Labels -->
+            <div class="form-field">
+                <input type="text" id="nama" name="nama" placeholder="Masukkan Nama Anda" required>
             </div>
-        </div>
 
-        <div class="form-field dropdown-list">
-            <input type="text" id="provinsi-input" name="provinsi" placeholder="Masukkan Provinsi Anda" autocomplete="off" required>
-            <ul id="provinsi-list"></ul>
-        </div>
+            <div class="form-field">
+                <input type="email" id="email" name="email" placeholder="Masukkan Email Anda" required>
+            </div>
 
-        <div class="form-field">
-            <input type="text" id="kota-input" name="kota" placeholder="Masukkan Kota Anda" required>
-        </div>
+            <div class="form-field">
+                <div class="phone-input-wrapper">
+                    <span class="phone-prefix">+62</span>
+                    <input type="tel" id="nomor_hp" name="nomor_hp" placeholder="81234567890" required>
+                </div>
+            </div>
 
-        <div class="form-field">
-            <input type="text" id="agen" name="agen" placeholder="Masukkan Nama Agen Anda" required>
-        </div>
+            <div class="form-field dropdown-list">
+                <input type="text" id="provinsi-input" name="provinsi" placeholder="Masukkan Provinsi Anda" autocomplete="off" required>
+                <ul id="provinsi-list"></ul>
+            </div>
 
-        <div class="form-field">
-            <label for="alasan">Mengapa Memilih mGanik 3Peptide:</label>
-            <textarea id="alasan" name="alasan" placeholder="Jelaskan alasan Anda" rows="4" required></textarea>
-        </div>
+            <div class="form-field">
+                <input type="text" id="kota-input" name="kota" placeholder="Masukkan Kota Anda" required>
+            </div>
 
-        <div class="form-field">
-            <label for="lama_konsumsi">Sudah Berapa Lama Mengkonsumsi mGanik Multigrain:</label>
-            <input type="text" id="lama_konsumsi" name="lama_konsumsi" placeholder="Contoh: 3 bulan" required>
-        </div>
+            <div class="form-field">
+                <input type="text" id="agen" name="agen" placeholder="Masukkan Nama Agen Anda" required>
+            </div>
 
-        <div class="form-field">
-            <label for="kritik_saran">Kritik dan Saran untuk mGanik:</label>
-            <textarea id="kritik_saran" name="kritik_saran" placeholder="Berikan kritik dan saran Anda" rows="4"></textarea>
-        </div>
+            <div class="form-field">
+                <label for="alasan">Mengapa Memilih mGanik 3Peptide:</label>
+                <textarea id="alasan" name="alasan" placeholder="Jelaskan alasan Anda" rows="4" required></textarea>
+            </div>
 
-        <div class="form-field">
-            <label for="testimoni">Testimoni Setelah Mengkonsumsi mGanik Multigrain:</label>
-            <textarea id="testimoni" name="testimoni" placeholder="Bagikan testimoni Anda" rows="4" required></textarea>
-        </div>
+            <div class="form-field">
+                <label for="lama_konsumsi">Sudah Berapa Lama Mengkonsumsi mGanik Multigrain:</label>
+                <input type="text" id="lama_konsumsi" name="lama_konsumsi" placeholder="Contoh: 3 bulan" required>
+            </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="submit-btn">Kirim</button>
-    </form>
+            <div class="form-field">
+                <label for="kritik_saran">Kritik dan Saran untuk mGanik:</label>
+                <textarea id="kritik_saran" name="kritik_saran" placeholder="Berikan kritik dan saran Anda" rows="4"></textarea>
+            </div>
+
+            <div class="form-field">
+                <label for="testimoni">Testimoni Setelah Mengkonsumsi mGanik Multigrain:</label>
+                <textarea id="testimoni" name="testimoni" placeholder="Bagikan testimoni Anda" rows="4" required></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">Kirim</button>
+        </form>
+    </div>
 
     <script>
         $(function() {
