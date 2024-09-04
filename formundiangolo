@@ -42,6 +42,7 @@
         .mganik-form .form-field {
             margin-bottom: 20px;
             text-align: left;
+            position: relative;
         }
 
         .mganik-form .form-field label {
@@ -61,13 +62,29 @@
             transition: border-color 0.3s;
             background-color: #ffffff;
             color: #000000;
-            font-weight: normal; /* Set font-weight to normal for non-bold text */
+            font-weight: normal;
         }
 
         .mganik-form .form-field input:focus,
         .mganik-form .form-field textarea:focus {
             border-color: #000000;
             outline: none;
+        }
+
+        .mganik-form .form-field.error input,
+        .mganik-form .form-field.error textarea {
+            border-color: red;
+        }
+
+        .mganik-form .form-field.error .error-message {
+            display: block;
+            color: red;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .mganik-form .error-message {
+            display: none;
         }
 
         .mganik-form .phone-input-wrapper {
@@ -93,7 +110,7 @@
             border-left: none;
             background-color: #ffffff;
             color: #000000;
-            font-weight: normal; /* Set font-weight to normal for non-bold text */
+            font-weight: normal;
         }
 
         .mganik-form .dropdown-list ul {
@@ -208,21 +225,25 @@
             <div class="form-field">
                 <label for="alasan">Mengapa Memilih GOLO Ginseng:</label>
                 <textarea id="alasan" name="alasan" placeholder="Jelaskan alasan Anda" rows="4" required></textarea>
+                <div class="error-message">Kolom ini wajib di isi</div>
             </div>
 
             <div class="form-field">
                 <label for="lama_konsumsi">Sudah Berapa Lama Mengkonsumsi GOLO Ginseng:</label>
                 <input type="text" id="lama_konsumsi" name="lama_konsumsi" placeholder="Contoh: 3 bulan" required>
+                <div class="error-message">Kolom ini wajib di isi</div>
             </div>
 
             <div class="form-field">
                 <label for="kritik_saran">Kritik dan Saran untuk Mister GOLO:</label>
                 <textarea id="kritik_saran" name="kritik_saran" placeholder="Berikan kritik dan saran Anda" rows="4"></textarea>
+                <div class="error-message">Kolom ini wajib di isi</div>
             </div>
 
             <div class="form-field">
                 <label for="testimoni">Testimoni Setelah Mengkonsumsi GOLO Ginseng:</label>
                 <textarea id="testimoni" name="testimoni" placeholder="Bagikan testimoni Anda" rows="4" required></textarea>
+                <div class="error-message">Kolom ini wajib di isi</div>
             </div>
 
             <!-- Submit Button -->
@@ -252,6 +273,16 @@
             const $provinsiList = $('#provinsi-list');
             const $submitBtn = $('.submit-btn');
 
+            function validateField($field) {
+                if ($field.val().trim() === '') {
+                    $field.closest('.form-field').addClass('error');
+                    return false;
+                } else {
+                    $field.closest('.form-field').removeClass('error');
+                    return true;
+                }
+            }
+
             $provinsiInput.on('input', function() {
                 const query = this.value.toLowerCase();
                 $provinsiList.empty().toggle(query !== '');
@@ -275,6 +306,17 @@
 
             $('#mgForm').on('submit', function(e) {
                 e.preventDefault();
+
+                let isValid = true;
+
+                // Validate required fields
+                isValid &= validateField($('#alasan'));
+                isValid &= validateField($('#lama_konsumsi'));
+                isValid &= validateField($('#kritik_saran'));
+                isValid &= validateField($('#testimoni'));
+
+                if (!isValid) return;
+
                 $submitBtn.prop('disabled', true).text('Mengirim...');
 
                 // Adjust to WIB (UTC+7) and remove timezone offset
