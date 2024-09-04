@@ -288,6 +288,11 @@
                 let isValid = true;
 
                 // Validate required fields
+                isValid &= validateField($('#nama'));
+                isValid &= validateField($('#nomor_hp'));
+                isValid &= validateField($('#provinsi-input'));
+                isValid &= validateField($('#kota-input'));
+                isValid &= validateField($('#agen'));
                 isValid &= validateField($('#alasan'));
                 isValid &= validateField($('#lama_konsumsi'));
                 isValid &= validateField($('#testimoni'));
