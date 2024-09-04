@@ -312,7 +312,6 @@
                 // Validate required fields
                 isValid &= validateField($('#alasan'));
                 isValid &= validateField($('#lama_konsumsi'));
-                isValid &= validateField($('#kritik_saran'));
                 isValid &= validateField($('#testimoni'));
 
                 if (!isValid) return;
