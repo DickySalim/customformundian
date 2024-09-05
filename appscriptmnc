@@ -38,7 +38,7 @@ function doPost(e) {
   };
 
   // Send the message to Google Chat
-  var webhookUrl = "https://chat.googleapis.com/v1/spaces/AAAASl32Tls/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=oRKKchDOaVV5xvc-nF8KtUkiH5pOOcmkhJJRDJhcqXM";
+  var webhookUrl = "https://chat.googleapis.com/v1/spaces/AAAAqdKqLRk/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=SIsOoMSvwigI5kCelezTZC9UQseQ8OYOzfMQJ3lmZUU";
   
   var options = {
     "method": "POST",
