@@ -342,7 +342,7 @@
                     testimoni: $('#testimoni').val().trim(),
                 };
 
-                $.post('https://script.google.com/macros/s/AKfycbysqzYZQUrpSvajw3GNpUGnAiHcrs4cr9S-cZ8I-YaHf8MGxzON0F1HMEjyZqHnK4DE/exec', formData)
+                $.post('https://script.google.com/macros/s/AKfycbzZ1zSIN-Z1w4L9XoYBs15_ZKTsZQFxUfwrnIKy_z_WwiCedLwaZkSjUWRPzo6Uz8jD/exec', formData)
                     .done(function() {
                         $submitBtn.hide();
                         $('#mgForm').hide();
