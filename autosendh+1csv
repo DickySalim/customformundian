@@ -1,0 +1,108 @@
+// Function to send yesterday's data as a CSV file link to Google Chat
+function sendYesterdayDataToGoogleChat() {
+  var sheet = SpreadsheetApp.openById('1-q5NCHA5ydTl5g_Z781m66FUADoeS81vBF1hlJ_vc08').getSheetByName('Sheet1');
+  var data = sheet.getDataRange().getValues(); // Get all the data from the sheet
+
+  // Column indices based on your provided columns (zero-based index)
+  var timestampIndex = 1; 
+
+  // Get yesterday's date in the correct format
+  var today = new Date();
+  var yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+  
+  // Set yesterday's time range (00:00 - 23:59)
+  var startOfYesterday = new Date(yesterday.setHours(0, 0, 0, 0)); // 00:00
+  var endOfYesterday = new Date(yesterday.setHours(23, 59, 59, 999)); // 23:59
+  
+  // Prepare CSV data array
+  var csvData = [];
+  
+  // Include the header in the CSV
+  csvData.push(data[0]); 
+
+  // Loop through the data and filter rows by timestamp
+  for (var i = 1; i < data.length; i++) {
+    var row = data[i];
+    var timestamp = new Date(row[timestampIndex]);
+
+    // Check if the timestamp is within yesterday's range
+    if (timestamp >= startOfYesterday && timestamp <= endOfYesterday) {
+      csvData.push(row); // Add the row to CSV data if it matches
+    }
+  }
+  
+  // Get the target date for the message
+  var targetDate = Utilities.formatDate(startOfYesterday, Session.getScriptTimeZone(), 'dd MMMM yyyy');
+  
+  // If no data is found for yesterday, send a no-submission message
+  if (csvData.length <= 1) {
+    var noDataMessage = "Tidak ada submisi undian baru pada tanggal " + targetDate;
+    
+    var noDataPayload = JSON.stringify({
+      "text": noDataMessage
+    });
+    
+    UrlFetchApp.fetch('https://chat.googleapis.com/v1/spaces/AAAA0aHFiuY/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=yxkno1zni2CI_hvdGJQM5Zz-kDfIxKtnMdyH1edUfQ8', {
+      "method": "post",
+      "contentType": "application/json",
+      "payload": noDataPayload
+    });
+
+    Logger.log(noDataMessage); // Log the message
+    return; // Exit the function since there's no data to send
+  }
+
+  // Create a CSV file from the filtered data
+  var csvContent = csvData.map(function(row) {
+    return row.join(",");
+  }).join("\n");
+
+  var csvFilename = "Data Submission Undian " + targetDate + ".csv"; // Updated filename format
+  var blob = Utilities.newBlob(csvContent, 'text/csv', csvFilename); // Create the CSV file
+
+  // Upload CSV to the specified Google Drive folder
+  var folder = DriveApp.getFolderById('1OOssWS3RI4lW17NJ07iIC-nTN7-nqse8'); // Folder ID from the provided folder link
+  var file = folder.createFile(blob); // Create the file in the specified folder
+  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW); // Make the file accessible via a link
+  
+  // Get the shareable link of the file
+  var fileLink = file.getUrl();
+  
+  // Prepare the message with the target date and file link
+  var message = "Data Undian Tanggal " + targetDate + "\nLink to CSV: " + fileLink;
+  
+  // Webhook URL of the Google Space
+  var webhookUrl = 'https://chat.googleapis.com/v1/spaces/AAAA0aHFiuY/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=yxkno1zni2CI_hvdGJQM5Zz-kDfIxKtnMdyH1edUfQ8';
+  
+  // Create the payload for Google Chat
+  var payload = {
+    "text": message
+  };
+  
+  // Send the request to Google Chat
+  var options = {
+    "method": "post",
+    "contentType": "application/json",
+    "payload": JSON.stringify(payload)
+  };
+
+  UrlFetchApp.fetch(webhookUrl, options); // Send the message with the CSV link to the chat space
+}
+
+// Function to create a daily trigger at 9 AM WIB (Waktu Indonesia Barat)
+function createDailyTriggerWIB() {
+  ScriptApp.newTrigger('sendYesterdayDataToGoogleChat')
+    .timeBased()
+    .everyDays(1)
+    .atHour(2) // 9 AM WIB is UTC+7, so set it to 2 AM UTC
+    .create();
+}
+
+// Function to delete existing triggers if needed
+function deleteAllTriggers() {
+  var triggers = ScriptApp.getProjectTriggers();
+  triggers.forEach(function(trigger) {
+    ScriptApp.deleteTrigger(trigger);
+  });
+}
